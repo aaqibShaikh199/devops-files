@@ -57,9 +57,9 @@ spec:
         args:
         - --source=service
         - --source=ingress
-        - --domain-filter=hi.devops.ravikyada.in  # will make ExternalDNS see only the hosted zones matching provided domain, omit to process all available hosted zones
+        - --domain-filter=<YOUR-DOMAIN-NAME> #YOUR-DOMAIN NAME HERE 
         - --provider=aws
-        - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
-        - --aws-zone-type=public # only look at public hosted zones (valid values are public, private or no value for both)
+        - --policy=upsert-only 
+        - --aws-zone-type=public 
         - --registry=txt
-        - --txt-owner-id=Z0361206ROQQ4B8APXQ1
+        - --txt-owner-id=<YOUR-AWS-ROUTE53-HOSTED-ZONE-ID> #YOUR HOSTED ZONE ID HERE
