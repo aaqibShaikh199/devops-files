@@ -3,7 +3,6 @@
 
 
 #!/bin/bash
-
 # Prompt for the username
 read -p "Enter the new username: " USERNAME
 
@@ -20,7 +19,7 @@ useradd -m -d "$FOLDER_PATH" -s /bin/bash "$USERNAME"
 # Set the password for the new user
 echo "$USERNAME:$PASSWORD" | chpasswd
 
-# Step 3: Set permissions to allow the user access to the specified folder only
+# Step 3: Set permissions to allow the user and others to access the specified folder
 if [ ! -d "$FOLDER_PATH" ]; then
     mkdir -p "$FOLDER_PATH"
     echo "$FOLDER_PATH directory created."
@@ -28,25 +27,13 @@ else
     echo "$FOLDER_PATH directory already exists."
 fi
 
+# Change the folder ownership and permissions
 chown "$USERNAME:$USERNAME" "$FOLDER_PATH"
-chmod 700 "$FOLDER_PATH"
-echo "Permissions set for $FOLDER_PATH."
+chmod 755 "$FOLDER_PATH"
+echo "Permissions set for $FOLDER_PATH. The folder is accessible to others."
 
-# Create a restricted shell script
-cat << EOF > /usr/local/bin/restricted_shell.sh
-#!/bin/bash
-if [[ \$PWD != "$FOLDER_PATH"* ]]; then
-  echo "Access denied. You can only access $FOLDER_PATH."
-  exit 1
-fi
-exec /bin/bash
-EOF
-
-# Make the script executable
-chmod +x /usr/local/bin/restricted_shell.sh
-
-# Set the user's shell to the restricted shell script
-chsh -s /usr/local/bin/restricted_shell.sh "$USERNAME"
+# Optional: Add a note about folder access
+echo "Other users can read and execute files in the folder but cannot modify them."
 
 # Edit the sshd_config file to set PasswordAuthentication to yes
 SSHD_CONFIG="/etc/ssh/sshd_config"
@@ -78,4 +65,5 @@ fi
 
 # Restart the SSH service to apply changes
 systemctl restart ssh
-echo "Password authentication has been enabled in SSH configuration"
+echo "Password authentication has been enabled in SSH configuration."
+
