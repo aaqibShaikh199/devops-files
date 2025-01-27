@@ -1,4 +1,3 @@
-#Using this script you can create a NEW ssh user with pass
 #!/bin/bash
 
 # Check if the script is run as root
@@ -68,5 +67,3 @@ fi
 
 # Confirm the creation of the user
 echo "User '$USERNAME' created with root-like privileges."
-
-
