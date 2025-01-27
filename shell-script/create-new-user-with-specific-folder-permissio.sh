@@ -64,4 +64,4 @@ fi
 # Restart the SSH service to apply changes
 systemctl restart ssh
 echo "Password authentication has been enabled in SSH configuration."
-echo "user are created with specific folder permission only"
+echo "User are created with specific folder permission"
