@@ -13,13 +13,13 @@ echo
 # Prompt for the folder path
 read -p "Enter the folder path for $USERNAME: " FOLDER_PATH
 
-# Create the new user with the specified folder as their home directory
-useradd -m -d "$FOLDER_PATH" -s /bin/bash "$USERNAME"
+# Create the new user with the specified home directory
+useradd -m -s /bin/bash "$USERNAME"
 
 # Set the password for the new user
 echo "$USERNAME:$PASSWORD" | chpasswd
 
-# Step 3: Set permissions to allow the user and others to access the specified folder
+# Step 3: Handle the folder creation if it doesn't exist
 if [ ! -d "$FOLDER_PATH" ]; then
     mkdir -p "$FOLDER_PATH"
     echo "$FOLDER_PATH directory created."
@@ -27,9 +27,11 @@ else
     echo "$FOLDER_PATH directory already exists."
 fi
 
-# Change the folder ownership and permissions
+# Change the ownership and permissions for the specified user
 chown "$USERNAME:$USERNAME" "$FOLDER_PATH"
 chmod 755 "$FOLDER_PATH"
+
+# Retain access for other users who already have permissions
 echo "Permissions set for $FOLDER_PATH. The folder is accessible to others."
 
 # Optional: Add a note about folder access
@@ -66,4 +68,5 @@ fi
 # Restart the SSH service to apply changes
 systemctl restart ssh
 echo "Password authentication has been enabled in SSH configuration."
+
 
