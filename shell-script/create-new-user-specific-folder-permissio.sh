@@ -1,7 +1,3 @@
-#This script creates a new user with restricted access to a specified folder.
-
-
-
 #!/bin/bash
 # Prompt for the username
 read -p "Enter the new username: " USERNAME
@@ -68,5 +64,4 @@ fi
 # Restart the SSH service to apply changes
 systemctl restart ssh
 echo "Password authentication has been enabled in SSH configuration."
-
-
+echo "user are created with specific folder permission only"
