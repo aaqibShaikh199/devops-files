@@ -1,0 +1,41 @@
+#When you create a new IAM user, this policy will require them to set up MFA. Until they do, they won’t be able to access any AWS services.
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateVirtualMFADevice",
+                "iam:EnableMFADevice",
+                "iam:ListVirtualMFADevices",
+                "iam:ListMFADevices",
+                "iam:ChangePassword",
+                "iam:DeleteVirtualMFADevice",
+                "sts:GetSessionToken"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "DenyAllIfMFAIsNotPresent",
+            "Effect": "Deny",
+            "NotAction": [
+                "iam:CreateVirtualMFADevice",
+                "iam:EnableMFADevice",
+                "iam:ListVirtualMFADevices",
+                "iam:ListMFADevices",
+                "iam:ChangePassword",
+                "iam:DeleteVirtualMFADevice",
+                "sts:GetSessionToken"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "BoolIfExists": {
+                    "aws:MultiFactorAuthPresent": "false"
+                },
+                "StringNotEqualsIfExists": {
+                    "aws:ViaAWSService": "true"
+                }
+            }
+        }
+    ]
+}
