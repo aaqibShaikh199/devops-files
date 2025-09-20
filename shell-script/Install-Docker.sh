@@ -37,10 +37,11 @@ sudo systemctl start docker
 # Add current user to docker group
 sudo groupadd -f docker
 sudo usermod -aG docker $USER
-exit
+
 
 echo "========================================================"
 echo " Docker installation completed successfully! 🎉 "
 echo " Logout and login again (or run 'newgrp docker') to use"
 echo " Docker without sudo."
 echo "========================================================"
+exit
