@@ -1,4 +1,5 @@
 #THIS SCRIPT INSTALL THE MINIKUBE + KUBECTL AFTER THAT IT'S CREATE A ALILAS FOR KUBECTL TO K 
+#NOTE:- You need to manually start the minikube using minikube start command
 #!/bin/bash
 
 set -e  # Exit on any error
