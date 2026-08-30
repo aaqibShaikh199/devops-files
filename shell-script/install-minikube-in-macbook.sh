@@ -240,3 +240,4 @@ minikube status || true
 echo
 log "Try: kubectl get nodes"
 
+
