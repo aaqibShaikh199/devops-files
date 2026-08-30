@@ -6,7 +6,8 @@ set -euo pipefail
 # ISTIO INSTALLATION SCRIPT
 #
 # Istio Version : 1.32.0
-# Installation  : Traditional Sidecar Mode
+# Profile       : Demo
+# Mode          : Traditional Sidecar
 # Platform      : Kubernetes (EKS / AKS / GKE / On-Prem)
 #
 # Requirements:
@@ -16,6 +17,7 @@ set -euo pipefail
 # ============================================================
 
 ISTIO_VERSION="1.32.0"
+ISTIO_PROFILE="demo"
 ISTIO_DIR="istio-${ISTIO_VERSION}"
 
 echo "============================================================"
@@ -110,7 +112,7 @@ echo "istioctl location:"
 echo "$ISTIOCTL"
 
 # ------------------------------------------------------------
-# STEP 6: Verify istioctl Version
+# STEP 6: Verify istioctl
 # ------------------------------------------------------------
 
 echo ""
@@ -143,32 +145,39 @@ fi
 echo "✅ No existing Istio control plane detected"
 
 # ------------------------------------------------------------
-# STEP 8: Validate Default Profile
+# STEP 8: Validate Demo Profile
 # ------------------------------------------------------------
 
 echo ""
-echo "=== VALIDATING ISTIO DEFAULT PROFILE ==="
+echo "=== VALIDATING ISTIO DEMO PROFILE ==="
 
-"$ISTIOCTL" profile dump default >/dev/null
+"$ISTIOCTL" profile dump "$ISTIO_PROFILE" >/dev/null
 
-echo "✅ Default profile is valid"
+echo "✅ Demo profile is valid"
 
 # ------------------------------------------------------------
-# STEP 9: Install Istio
+# STEP 9: Install Istio Demo Profile
 # ------------------------------------------------------------
 
 echo ""
 echo "=== INSTALLING ISTIO ==="
+
+echo ""
+echo "Istio Version:"
+echo "$ISTIO_VERSION"
+
+echo ""
+echo "Istio Profile:"
+echo "$ISTIO_PROFILE"
+
 echo ""
 echo "Installation Mode:"
 echo "Traditional Sidecar Mode"
-echo ""
-echo "Istio Profile:"
-echo "default"
+
 echo ""
 
 "$ISTIOCTL" install \
-    --set profile=default \
+    --set profile="$ISTIO_PROFILE" \
     -y
 
 # ------------------------------------------------------------
@@ -199,7 +208,7 @@ echo "=== ISTIO SYSTEM SERVICES ==="
 kubectl get svc -n istio-system
 
 # ------------------------------------------------------------
-# STEP 13: Enable Sidecar Injection
+# STEP 13: Enable Automatic Sidecar Injection
 # ------------------------------------------------------------
 
 echo ""
@@ -233,6 +242,10 @@ echo "============================================================"
 echo ""
 echo "Istio Version:"
 echo "$ISTIO_VERSION"
+
+echo ""
+echo "Istio Profile:"
+echo "$ISTIO_PROFILE"
 
 echo ""
 echo "Installation:"
